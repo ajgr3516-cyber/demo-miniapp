@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,25 +19,30 @@
       padding-bottom: 90px;
     }
 
-    /* Navegación por Pestañas */
+    /* Navegación por Pestañas (5 Páginas) */
     nav {
       position: sticky;
       top: 0;
       background: #1e293b;
       display: flex;
-      justify-content: space-around;
+      overflow-x: auto;
       border-bottom: 1px solid #334155;
       z-index: 100;
+      scrollbar-width: none; /* Ocultar scrollbar */
+    }
+    nav::-webkit-scrollbar {
+      display: none;
     }
     nav button {
       background: none;
       border: none;
       color: #94a3b8;
-      padding: 14px 8px;
-      font-size: 14px;
+      padding: 12px 10px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      flex: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
       text-align: center;
       border-bottom: 3px solid transparent;
       transition: all 0.3s;
@@ -57,12 +63,12 @@
     /* Página 1: Inicio */
     .hero {
       text-align: center;
-      padding: 20px 10px;
+      padding: 16px 8px;
     }
     .hero h1 {
-      font-size: 24px;
+      font-size: 22px;
       color: #38bdf8;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .hero p {
       color: #cbd5e1;
@@ -70,7 +76,7 @@
       line-height: 1.5;
     }
     .features {
-      margin-top: 24px;
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -82,7 +88,7 @@
       border: 1px solid #334155;
     }
     .feature-card h3 {
-      font-size: 16px;
+      font-size: 15px;
       color: #f59e0b;
       margin-bottom: 4px;
     }
@@ -97,9 +103,9 @@
       width: 100%;
       padding: 14px;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
-      margin-top: 20px;
+      margin-top: 18px;
       cursor: pointer;
     }
 
@@ -117,7 +123,7 @@
       color: #cbd5e1;
       padding: 6px 12px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 12px;
       white-space: nowrap;
       cursor: pointer;
     }
@@ -128,7 +134,7 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 12px;
     }
     .card {
@@ -142,17 +148,17 @@
     }
     .card img {
       width: 100%;
-      height: 100px;
+      height: 90px;
       object-fit: cover;
       border-radius: 6px;
       margin-bottom: 8px;
     }
     .card-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
     }
     .card-price {
-      font-size: 15px;
+      font-size: 14px;
       color: #4ade80;
       font-weight: bold;
       margin: 4px 0 8px 0;
@@ -166,9 +172,10 @@
       font-weight: bold;
       cursor: pointer;
       width: 100%;
+      font-size: 13px;
     }
 
-    /* Página 3: Checkout */
+    /* Estilos Generales para Checkout y Pagos */
     .cart-list {
       background: #1e293b;
       padding: 12px;
@@ -180,7 +187,7 @@
       justify-content: space-between;
       padding: 8px 0;
       border-bottom: 1px solid #334155;
-      font-size: 14px;
+      font-size: 13px;
     }
     .pay-details {
       background: #1e293b;
@@ -193,12 +200,13 @@
     }
     input[type="text"] {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 8px;
       border-radius: 6px;
       border: 1px solid #334155;
       background: #0f172a;
       color: #fff;
+      font-size: 14px;
     }
     .btn-pay {
       background: #22c55e;
@@ -207,12 +215,57 @@
       width: 100%;
       padding: 14px;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    /* Barra Flotante */
+    /* Página 4: Info de Adquisición */
+    .info-box {
+      background: #1e293b;
+      border: 1px solid #38bdf8;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .info-box h2 {
+      color: #38bdf8;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .badge-24h {
+      display: inline-block;
+      background: #f59e0b;
+      color: #000;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* Banner "Paga Aquí" */
+    .banner-paga-aqui {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #ffffff;
+      text-align: center;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    /* Barra Flotante del Carrito */
     .cart-bar {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -227,11 +280,13 @@
 </head>
 <body>
 
-  <!-- Navegación por pestañas -->
+  <!-- Navegación por 5 pestañas -->
   <nav>
     <button id="nav-1" class="active" onclick="switchPage(1)">1. Inicio</button>
     <button id="nav-2" onclick="switchPage(2)">2. Catálogo</button>
-    <button id="nav-3" onclick="switchPage(3)">3. Pasarela</button>
+    <button id="nav-3" onclick="switchPage(3)">3. Pasarela Demo</button>
+    <button id="nav-4" onclick="switchPage(4)">4. Precios & Entrega</button>
+    <button id="nav-5" onclick="switchPage(5)">5. Paga Tu App 💳</button>
   </nav>
 
   <!-- PÁGINA 1: INICIO -->
@@ -263,7 +318,7 @@
     <button class="btn-cta" onclick="switchPage(2)">Probar Catálogo de Muestra ➡️</button>
   </div>
 
-  <!-- PÁGINA 2: CATÁLOGO -->
+  <!-- PÁGINA 2: CATÁLOGO DEMO -->
   <div id="page-2" class="page">
     <div class="filter-bar">
       <div class="filter-chip active" onclick="filterRubro('todos', this)">Todos</div>
@@ -273,18 +328,18 @@
     </div>
 
     <div class="grid" id="product-grid">
-      <!-- Los productos se cargan dinámicamente -->
+      <!-- Se carga dinámicamente -->
     </div>
   </div>
 
-  <!-- PÁGINA 3: PASARELA DE PAGO -->
+  <!-- PÁGINA 3: PASARELA DEMO DE MUESTRA -->
   <div id="page-3" class="page">
-    <h2 style="font-size: 18px; color: #38bdf8; margin-bottom: 12px;">🛒 Tu Pedido</h2>
+    <h2 style="font-size: 16px; color: #38bdf8; margin-bottom: 12px;">🛒 Tu Pedido de Muestra</h2>
     <div class="cart-list" id="cart-items">
       <p style="color: #94a3b8; font-size: 13px;">No has agregado productos al carrito.</p>
     </div>
 
-    <h2 style="font-size: 18px; color: #38bdf8; margin-bottom: 12px;">💳 Pasarela Pago Móvil</h2>
+    <h2 style="font-size: 16px; color: #38bdf8; margin-bottom: 12px;">💳 Ejemplo Pasarela Cliente</h2>
     <div class="pay-details">
       <b>Banco:</b> Banco de Venezuela (0102)<br>
       <b>Teléfono:</b> 0424-9090289<br>
@@ -295,16 +350,64 @@
     <label style="font-size: 13px; color: #cbd5e1;">Ingresa N° de Referencia:</label>
     <input type="text" id="ref-input" placeholder="Ej: 987654">
 
-    <button class="btn-pay" style="margin-top: 16px;" onclick="sendWhatsAppOrder()">Enviar Pedido a WhatsApp 📲</button>
+    <button class="btn-pay" style="margin-top: 16px;" onclick="sendWhatsAppOrder()">Enviar Pedido de Muestra a WhatsApp 📲</button>
   </div>
 
-  <!-- BARRA FLOTANTE DEL CARRITO -->
-  <div class="cart-bar">
-    <div>
-      <div style="font-size: 12px; color: #94a3b8;">Total Carrito</div>
-      <div id="bar-total" style="font-size: 16px; font-weight: bold; color: #4ade80;">$0.00</div>
+  <!-- PÁGINA 4: INFORMACIÓN DE ADQUISICIÓN Y ADQUISICIÓN -->
+  <div id="page-4" class="page">
+    <div class="info-box">
+      <span class="badge-24h">⚡ ¡ENTREGA EN 24 HORAS!</span>
+      <h2>Adquiere tu propia Mini App</h2>
+      <p style="font-size: 14px; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px;">
+        Obtén tu bot interactivo personalizado para tu negocio con catálogo, carrito y pasarela de pago móvil propia.
+      </p>
+      
+      <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+        <p style="font-size: 13px; color: #94a3b8;">⏱️ <b>Tiempo de entrega:</b> 24 horas contadas a partir de la recepción de tu información (logo, catálogo y datos de pago).</p>
+      </div>
+
+      <div style="background: #0f172a; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: #94a3b8;">💬 <b>Atención Directa:</b> Para dudas o enviar tus datos comunícate directamente con el desarrollador:</p>
+        <p style="font-size: 15px; color: #38bdf8; font-weight: bold; margin-top: 4px;">Telegram: @AJGR86</p>
+      </div>
+
+      <button class="btn-cta" style="background: #22c55e; color: #fff;" onclick="window.open('https://t.me/AJGR86', '_blank')">Contactar a @AJGR86 en Telegram 💬</button>
     </div>
-    <button class="btn-add" style="width: auto; padding: 10px 16px;" onclick="switchPage(3)">Ver Pedido 🛒</button>
+
+    <button class="btn-cta" style="background: #f59e0b; color: #000;" onclick="switchPage(5)">Pagar mi Mini App Ahora 💳➡️</button>
+  </div>
+
+  <!-- PÁGINA 5: PASARELA DIRECTA DE PAGO DE LA MINI APP -->
+  <div id="page-5" class="page">
+    
+    <div class="banner-paga-aqui">
+      🔥 ¡PAGA TU MINI APP AQUÍ! 🔥
+    </div>
+
+    <div class="pay-details" style="border: 1px solid #f59e0b;">
+      <h3 style="color: #f59e0b; font-size: 16px; margin-bottom: 8px;">Datos para Pago Móvil Directo:</h3>
+      <b>Banco:</b> Banco de Venezuela (0102)<br>
+      <b>Teléfono:</b> 0424-9090289<br>
+      <b>Cédula / RIF:</b> V-18.451.548<br>
+      <b>Concepto:</b> Desarrollo Mini App Telegram
+    </div>
+
+    <label style="font-size: 13px; color: #cbd5e1; font-weight: bold;">Ingresa tu N° de Referencia de Pago:</label>
+    <input type="text" id="ref-miniapp-input" placeholder="Ej: 12345678">
+
+    <label style="font-size: 13px; color: #cbd5e1; font-weight: bold; margin-top: 10px; display: block;">Tu Nombre / Nombre de tu Negocio:</label>
+    <input type="text" id="nombre-negocio-input" placeholder="Ej: Calzados Antonio / @mi_usuario">
+
+    <button class="btn-pay" style="margin-top: 16px; background: #f59e0b; color: #000;" onclick="sendAppPaymentConfirm()">Confirmar Pago a @AJGR86 por WhatsApp 📲</button>
+  </div>
+
+  <!-- BARRA FLOTANTE DEL CARRITO (Solo visible en catálogo/demo) -->
+  <div class="cart-bar" id="cart-bar-elem">
+    <div>
+      <div style="font-size: 11px; color: #94a3b8;">Total Carrito Demo</div>
+      <div id="bar-total" style="font-size: 15px; font-weight: bold; color: #4ade80;">$0.00</div>
+    </div>
+    <button class="btn-add" style="width: auto; padding: 8px 14px;" onclick="switchPage(3)">Ver Pedido Demo 🛒</button>
   </div>
 
   <script>
@@ -324,6 +427,14 @@
 
       document.getElementById(`page-${pageNum}`).classList.add('active');
       document.getElementById(`nav-${pageNum}`).classList.add('active');
+
+      // Ocultar barra de carrito en páginas de información y pago directo
+      const cartBar = document.getElementById('cart-bar-elem');
+      if (pageNum === 4 || pageNum === 5) {
+        cartBar.style.display = 'none';
+      } else {
+        cartBar.style.display = 'flex';
+      }
 
       if (pageNum === 3) renderCart();
     }
@@ -382,6 +493,7 @@
       });
     }
 
+    // WhatsApp para pedidos del Catálogo Demo
     function sendWhatsAppOrder() {
       const ref = document.getElementById('ref-input').value.trim();
       if (cart.length === 0) return alert("Agrega al menos un producto.");
@@ -392,6 +504,24 @@
       cart.forEach((item, i) => text += `${i+1}. ${item.title} - $${item.price.toFixed(2)}\n`);
       text += `\n💵 *Total:* $${total.toFixed(2)}`;
       text += `\n💳 *Pago Móvil Ref:* #${ref}`;
+
+      const phone = "584249090289";
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // WhatsApp para la Compra Directa de la Mini App
+    function sendAppPaymentConfirm() {
+      const ref = document.getElementById('ref-miniapp-input').value.trim();
+      const negocio = document.getElementById('nombre-negocio-input').value.trim();
+
+      if (!ref) return alert("Por favor ingresa la referencia del Pago Móvil.");
+      if (!negocio) return alert("Por favor ingresa tu nombre o el de tu negocio.");
+
+      let text = "🔥 *CONFIRMACIÓN DE PAGO - COMPRA DE MINI APP*\n\n";
+      text += `👤 *Cliente / Negocio:* ${negocio}\n`;
+      text += `💳 *Referencia Pago Móvil:* #${ref}\n`;
+      text += `⚡ *Compromiso:* Entrega en 24 horas tras enviar los datos.\n\n`;
+      text += `Contacto directo desarrollador: @AJGR86`;
 
       const phone = "584249090289";
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
