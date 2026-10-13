@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Mini App Comercial</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding-bottom: 90px;
+    }
+
+    /* Navegación por Pestañas */
+    nav {
+      position: sticky;
+      top: 0;
+      background: #1e293b;
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid #334155;
+      z-index: 100;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      padding: 14px 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    nav button.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+    }
+
+    .page {
+      display: none;
+      padding: 16px;
+    }
+    .page.active {
+      display: block;
+    }
+
+    /* Página 1: Inicio */
+    .hero {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .hero h1 {
+      font-size: 24px;
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .features {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .feature-card {
+      background: #1e293b;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+    }
+    .feature-card h3 {
+      font-size: 16px;
+      color: #f59e0b;
+      margin-bottom: 4px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .btn-cta {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    /* Página 2: Catálogo */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+    .filter-chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .filter-chip.active {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .card-price {
+      font-size: 15px;
+      color: #4ade80;
+      font-weight: bold;
+      margin: 4px 0 8px 0;
+    }
+    .btn-add {
+      background: #f59e0b;
+      border: none;
+      color: #000;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Página 3: Checkout */
+    .cart-list {
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #334155;
+      font-size: 14px;
+    }
+    .pay-details {
+      background: #1e293b;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      margin-bottom: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #fff;
+    }
+    .btn-pay {
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Barra Flotante */
+    .cart-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #1e293b;
+      padding: 12px 16px;
+      border-top: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navegación por pestañas -->
+  <nav>
+    <button id="nav-1" class="active" onclick="switchPage(1)">1. Inicio</button>
+    <button id="nav-2" onclick="switchPage(2)">2. Catálogo</button>
+    <button id="nav-3" onclick="switchPage(3)">3. Pasarela</button>
+  </nav>
+
+  <!-- PÁGINA 1: INICIO -->
+  <div id="page-1" class="page active">
+    <div class="hero">
+      <h1>🚀 Tu Negocio en Telegram</h1>
+      <p>Transforma tu cuenta en una tienda interactiva donde tus clientes compran en segundos.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <h3>⚡ Carga Ultrarrápida</h3>
+        <p>Abre directamente en Telegram sin pedir registros ni descargar apps externas.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🛒 Menú Interactivo</h3>
+        <p>Catálogo configurable por rubros con fotos, precios y carrito de compras.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💳 Pasarela Integrada</h3>
+        <p>Recibe Pagos Móviles, Transferencias o Divisas con validación de referencia.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📲 Pedidos a WhatsApp</h3>
+        <p>Las órdenes llegan listas y formateadas a tu WhatsApp corporativo o personal.</p>
+      </div>
+    </div>
+
+    <button class="btn-cta" onclick="switchPage(2)">Probar Catálogo de Muestra ➡️</button>
+  </div>
+
+  <!-- PÁGINA 2: CATÁLOGO -->
+  <div id="page-2" class="page">
+    <div class="filter-bar">
+      <div class="filter-chip active" onclick="filterRubro('todos', this)">Todos</div>
+      <div class="filter-chip" onclick="filterRubro('comida', this)">🍔 Comida Rápida</div>
+      <div class="filter-chip" onclick="filterRubro('sublimacion', this)">👕 Sublimación</div>
+      <div class="filter-chip" onclick="filterRubro('bodegon', this)">🛍️ Bodegón</div>
+    </div>
+
+    <div class="grid" id="product-grid">
+      <!-- Los productos se cargan dinámicamente -->
+    </div>
+  </div>
+
+  <!-- PÁGINA 3: PASARELA DE PAGO -->
+  <div id="page-3" class="page">
+    <h2 style="font-size: 18px; color: #38bdf8; margin-bottom: 12px;">🛒 Tu Pedido</h2>
+    <div class="cart-list" id="cart-items">
+      <p style="color: #94a3b8; font-size: 13px;">No has agregado productos al carrito.</p>
+    </div>
+
+    <h2 style="font-size: 18px; color: #38bdf8; margin-bottom: 12px;">💳 Pasarela Pago Móvil</h2>
+    <div class="pay-details">
+      <b>Banco:</b> Banco de Venezuela (0102)<br>
+      <b>Teléfono:</b> 0424-9090289<br>
+      <b>Cédula:</b> V-18.451.548<br>
+      <b>Monto Total:</b> <span id="checkout-total" style="color: #4ade80; font-weight: bold;">$0.00</span>
+    </div>
+
+    <label style="font-size: 13px; color: #cbd5e1;">Ingresa N° de Referencia:</label>
+    <input type="text" id="ref-input" placeholder="Ej: 987654">
+
+    <button class="btn-pay" style="margin-top: 16px;" onclick="sendWhatsAppOrder()">Enviar Pedido a WhatsApp 📲</button>
+  </div>
+
+  <!-- BARRA FLOTANTE DEL CARRITO -->
+  <div class="cart-bar">
+    <div>
+      <div style="font-size: 12px; color: #94a3b8;">Total Carrito</div>
+      <div id="bar-total" style="font-size: 16px; font-weight: bold; color: #4ade80;">$0.00</div>
+    </div>
+    <button class="btn-add" style="width: auto; padding: 10px 16px;" onclick="switchPage(3)">Ver Pedido 🛒</button>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, rubro: 'comida', title: 'Hamburguesa Especial', price: 5.00, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&q=80' },
+      { id: 2, rubro: 'comida', title: 'Perro Especial', price: 2.50, img: 'https://images.unsplash.com/photo-1627054248882-965a397793d5?w=300&q=80' },
+      { id: 3, rubro: 'sublimacion', title: 'Franela Sublimada', price: 8.00, img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=300&q=80' },
+      { id: 4, rubro: 'sublimacion', title: 'Taza Personalizada', price: 4.50, img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300&q=80' },
+      { id: 5, rubro: 'bodegon', title: 'Combo Refresco + Snacks', price: 6.00, img: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300&q=80' }
+    ];
+
+    let cart = [];
+
+    function switchPage(pageNum) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(`page-${pageNum}`).classList.add('active');
+      document.getElementById(`nav-${pageNum}`).classList.add('active');
+
+      if (pageNum === 3) renderCart();
+    }
+
+    function renderProducts(filter = 'todos') {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+
+      const filtered = filter === 'todos' ? products : products.filter(p => p.rubro === filter);
+
+      filtered.forEach(p => {
+        grid.innerHTML += `
+          <div class="card">
+            <img src="${p.img}" alt="${p.title}" loading="lazy">
+            <div class="card-title">${p.title}</div>
+            <div class="card-price">$${p.price.toFixed(2)}</div>
+            <button class="btn-add" onclick="addToCart(${p.id})">+ Agregar</button>
+          </div>
+        `;
+      });
+    }
+
+    function filterRubro(rubro, element) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      element.classList.add('active');
+      renderProducts(rubro);
+    }
+
+    function addToCart(id) {
+      const prod = products.find(p => p.id === id);
+      cart.push(prod);
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('bar-total').innerText = `$${total.toFixed(2)}`;
+      document.getElementById('checkout-total').innerText = `$${total.toFixed(2)}`;
+    }
+
+    function renderCart() {
+      const cartContainer = document.getElementById('cart-items');
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p style="color: #94a3b8; font-size: 13px;">No has agregado productos al carrito.</p>';
+        return;
+      }
+
+      cartContainer.innerHTML = '';
+      cart.forEach((item, index) => {
+        cartContainer.innerHTML += `
+          <div class="cart-item">
+            <span>${item.title}</span>
+            <span style="color: #4ade80; font-weight: bold;">$${item.price.toFixed(2)}</span>
+          </div>
+        `;
+      });
+    }
+
+    function sendWhatsAppOrder() {
+      const ref = document.getElementById('ref-input').value.trim();
+      if (cart.length === 0) return alert("Agrega al menos un producto.");
+      if (!ref) return alert("Por favor ingresa la referencia del Pago Móvil.");
+
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      let text = "🚀 *NUEVA ORDEN DE DEMO - MINI APP*\n\n";
+      cart.forEach((item, i) => text += `${i+1}. ${item.title} - $${item.price.toFixed(2)}\n`);
+      text += `\n💵 *Total:* $${total.toFixed(2)}`;
+      text += `\n💳 *Pago Móvil Ref:* #${ref}`;
+
+      const phone = "584249090289";
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    renderProducts();
+    if (window.Telegram && window.Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  </script>
+</body>
+</html>
